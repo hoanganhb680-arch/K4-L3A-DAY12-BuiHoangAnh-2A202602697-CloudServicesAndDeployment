@@ -42,12 +42,12 @@ docker images | grep agent
 
 | Bản | Dung lượng |
 |-----|-----------|
-| 1 stage (bản đầu) | ... MB |
-| Multi-stage | ... MB |
+| 1 stage (bản đầu) | 1700 MB |
+| Multi-stage | 271 MB |
 
 Giải thích: phần dung lượng chênh lệch đó là những gì?
 
-> Khác biệt chủ yếu ở tầng build: bản 1-stage dùng base python:3.11 đầy đủ, giữ lại compiler/toolchain và bộ đệm pip ngay trong image cuối; bản multi-stage chỉ COPY --from=builder /install /usr/local sang stage runtime slim nên loại bỏ compiler và bộ đệm pip. 1-stage thường khoảng 900MB-1GB, còn multi-stage slim vào khoảng 150-250MB. Số đo cụ thể phải chạy docker build + docker images trên máy có Docker để ghi lại (máy hiện tại chưa cài Docker).
+> Khác biệt chủ yếu ở tầng build: bản 1-stage dùng base python:3.11 đầy đủ, giữ lại compiler/toolchain, bộ đệm pip và cả tầng cài đặt ngay trong image cuối; bản multi-stage chỉ COPY --from=builder /install /usr/local sang stage runtime slim nên loại bỏ compiler và bộ đệm pip. Đo thật trên máy mình: 1-stage là 1,7 GB, còn multi-stage slim là 271 MB - chênh lệch 1,4 GB gần như toàn bộ là các thứ chỉ cần lúc build, không cần lúc chạy.
 
 ---
 
@@ -116,4 +116,4 @@ Ghi lại **một** lỗi bạn gặp khi deploy lên cloud (build fail, health 
 timeout, sai REDIS_URL, app không đọc `$PORT`...): thông báo lỗi là gì, bạn
 tìm ra nguyên nhân bằng cách nào, và sửa ra sao?
 
-> Lỗi mẫu: /ready trả 503 dù local chạy tốt, nguyên nhân gần như chắc chắn là REDIS_URL trên cloud sai/chưa tạo Redis add-on. Chẩn đoán bằng cách xem log kết nối Redis trên dashboard, gọi curl /ready để xác nhận, rồi set REDIS_URL trỏ đúng hostname Redis của platform. Đây là lỗi mẫu; sau khi tự thao tác deploy cần ghi lại lỗi thật mình gặp.
+> Lỗi thật mình gặp: mở link gốc https://day12-agent-y9v3.onrender.com/ trong trình duyệt thì thấy "Not Found" (404), tưởng deploy hỏng. Mình kiểm tra bằng curl thì thấy chỉ link gốc trả 404 còn /health và /ready đều 200. Nguyên nhân là app không khai báo route cho đường dẫn "/", nên trình duyệt mở đúng link nền render.com thì không có gì để hiển thị. Cách sửa/kiểm tra đúng: gọi trực tiếp https://day12-agent-y9v3.onrender.com/health; đây là lỗi do hiểu nhầm "service không có trang chủ" thành "deploy không thành công", không cần sửa code service.
