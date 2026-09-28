@@ -1,4 +1,4 @@
-![CI](https://github.com/hoanganhb680-arch/K4-L3A-Bui-Hoang-Anh-2A202602697-Cloud-Service-And-Deployment/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/hoanganhb680-arch/K4-L3A-DAY12-BuiHoangAnh-2A202602697-CloudServicesAndDeployment/actions/workflows/ci.yml/badge.svg)
 
 # K4 — Level 3A, Ngày 12: Hạ Tầng Cloud & Deployment (240 phút)
 
