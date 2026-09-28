@@ -12,15 +12,15 @@
 |-----|----------|
 | Họ và tên | Bùi Hoàng Anh |
 | Mã học viên | 2A202602697 |
-| Repo | https://github.com/hoanganhb680-arch/K4-L3A-Bui-Hoang-Anh-2A202602697-Cloud-Service-And-Deployment |
+| Repo | https://github.com/hoanganhb680-arch/K4-L3A-DAY12-BuiHoangAnh-2A202602697-CloudServicesAndDeployment |
 
 ## Service
 
 | Mục | Nội dung |
 |-----|----------|
-| Public URL | CHƯA DEPLOY — cần tài khoản Railway/Render và Docker |
-| Platform | Railway (dự kiến) |
-| Ngày deploy | (chưa deploy) |
+| Public URL | https://day12-agent-y9v3.onrender.com |
+| Platform | Render |
+| Ngày deploy | 28/09/2026 |
 
 ## Biến Môi Trường Đã Set Trên Cloud
 
@@ -72,8 +72,18 @@ done; echo
 
 Dán output của các lệnh trên vào đây:
 
-```
-(chưa deploy — chưa có output)
+```text
+$ curl -i https://day12-agent-y9v3.onrender.com/health
+HTTP/1.1 200 OK
+{"status":"ok","service":"day12-agent","version":"1.0.0"}
+
+$ curl -i https://day12-agent-y9v3.onrender.com/ready
+HTTP/1.1 200 OK
+{"status":"ready","redis":true}
+
+$ curl -i -X POST https://day12-agent-y9v3.onrender.com/ask -H "Content-Type: application/json" -d '{"question":"Hello"}'
+HTTP/1.1 401 Unauthorized
+{"detail":"invalid or missing API key"}
 ```
 
 ## Ảnh Chụp Màn Hình
@@ -87,15 +97,4 @@ Dán output của các lệnh trên vào đây:
 
 ## Nếu Dùng Phương Án Dự Phòng
 
-Không đăng ký được tài khoản cloud? Vẫn nộp được bài, nhưng CP5 tối đa 60% điểm:
-
-1. Đặt `LOCAL_FALLBACK=true` trong `.env`
-2. Chạy `docker compose up -d` rồi kiểm tra `docker compose ps`
-3. Chụp màn hình vào `screenshots/`
-4. Chạy `pytest tests/test_cp5.py -v` — bộ test sẽ tự chuyển sang kiểm tra
-   `http://localhost:8000`
-5. Ghi rõ lý do không deploy được vào phần dưới đây:
-
-```
-Chưa deploy vì máy chưa cài Docker và chưa có tài khoản Railway/Render.
-```
+Đã deploy thẳng lên Render nên không dùng phương án dự phòng.
